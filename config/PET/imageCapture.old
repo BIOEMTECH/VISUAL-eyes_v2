@@ -1,0 +1,9 @@
+470							...........(Scanner Slice Upper Leftest Point X)----------- 110
+40							...........(Scanner Slice Upper Leftest Point Y)----------- 350 
+2							...........(Scanner Slice width)-----------620  ---> Up here is good for now 
+405							...........(Scanner Slice height)----------- 14 good 
+0							...........(extraSliceHeight)---------- 0
+50							...........(First Frame)----------- From 150
+187							...........(Last Frame)-----------480
+0							...........(Motion of the video:Upwards = 1, Downwards = 0)----------- 
+ 	

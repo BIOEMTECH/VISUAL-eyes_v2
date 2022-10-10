@@ -1,0 +1,2 @@
+#!/bin/bash
+echo -e hv6 > /dev/ttyArduino

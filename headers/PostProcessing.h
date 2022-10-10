@@ -1,0 +1,419 @@
+﻿//////////////////////////////////////////////////////////////////////
+///
+///	@file PostProcessing.h
+///	@brief HeaderFile PostProcessing
+///
+///	@author Aphrodite Toufa
+/// @date   Created: 6.02.2018
+///
+//////////////////////////////////////////////////////////////////////
+#ifndef POSTPROCESSING_H
+#define POSTPROCESSING_H
+
+
+#include "ui_PostProcessing.h"
+#include <QMainWindow>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QDir>
+#include <QObject>
+#include <QMutex>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsPathItem>
+#include <QTableWidget>
+#include <QListWidgetItem>
+#include <QProcess>
+#include <QStyledItemDelegate>
+#include <QGridLayout>
+#include <QGraphicsView>
+#include <QImage>
+#include <QPaintDevice>
+#include "imageFusion.hpp"
+#include "headers/mergedialog.h"
+
+/////Qwt Plot header files//////
+#include "qwt_plot_zoomer.h"
+#include "qwt_plot_panner.h"
+#include "qwt_plot_layout.h"
+#include "qwt_plot_magnifier.h"
+#include "qwt_plot_marker.h"
+#include "qwt_plot_renderer.h"
+#include "qwt_plot_canvas.h"
+#include "qwt_legend.h"
+#include "qwt_picker_machine.h"
+#include "qwt_plot_textlabel.h"
+////////////////////////////////
+
+#include "qwt_color_map.h"
+#include "qwt_plot_spectrogram.h"
+#include "qwt_scale_widget.h"
+#include "qwt_scale_draw.h"
+#include "qwt_plot_rescaler.h"
+#include "qwt_plot_zoomer.h"
+#include "qwt_plot_magnifier.h"
+#include "qwt_matrix_raster_data.h"
+#include "qwt_plot_curve.h"
+#include "qwt_symbol.h"
+#include "qwt_scale_engine.h"
+#include "qwt_scale_map.h"
+#include "qwt_plot_grid.h"
+#include "qwt_plot_item.h"
+#include "qwt_plot.h"
+#include "ColorMap.h"
+#include "qwt_plot_shapeitem.h"
+
+#include "roiManager.hpp"
+//#include "rlDeconv.hpp"
+
+#include "headers/readinputinfo.h"
+#include "ui_PlotSelector.h"
+
+#include <QTextEdit>
+#include <QPrinter>
+#include <QDesktopServices>
+#include <QPdfWriter>
+#include "veyesutils.h"
+//#include "isotope.h"
+
+#define crystal_pixels_x 29
+#define crystal_pixels_y 58
+#define output_size_y    1024
+#define output_size_x    512
+
+enum Type
+{
+    RectROI =1,
+    EllipseROI = 2,
+    FreeDrawROI = 3,
+    SelectItem = 4,
+    DragItem = 5,
+    NoSelection = 6
+
+};
+enum SubTypes
+{
+    AngledEllipse =1,
+    RoundedRect =2,
+
+};
+
+class CustomMagnifier : public QwtPlotMagnifier
+{
+    Q_OBJECT
+public:
+    QwtPlot* mPlot;
+
+    CustomMagnifier(QwtPlot* plot) : QwtPlotMagnifier(plot->canvas())
+    {
+        mPlot = plot;
+    }
+
+    virtual ~CustomMagnifier();
+
+    virtual void rescale_on_cursor(double factor,int x_cursor,int y_cursor,QSize parent_size);
+
+//    QWidget *zoomPlot;
+    QwtPlotRescaler *_plotScaleEngine;
+public slots:
+
+protected:
+    void widgetWheelEvent(QWheelEvent *wheelEvent) override;
+    void widgetMousePressEvent (QMouseEvent *event) override;
+    void widgetMouseReleaseEvent (QMouseEvent *event) override;
+
+
+
+private:
+    QPoint currentPos,lastPos;
+};
+
+class GUI_Plot : public QwtPlot
+{
+
+    Q_OBJECT
+
+public:
+    GUI_Plot(QWidget *parent = NULL,bool type = false);
+    int rotateValue;
+    QwtMatrixRasterData *corMatrix1,*corMatrix2;
+    QwtScaleWidget *rightAxis;
+    QwtPlotSpectrogram *spectrogram1;
+    QwtPlotCurve *curve;
+    CustomMagnifier *zoom;
+
+    Type value;
+    SubTypes sVal;
+    QwtPlotShapeItem* d_editedItem,*currItem,*initialItem;
+    QPoint d_currentPos,last_Pos;
+    int GeneralItemsCounter;
+    int ItemCounter,labelCounter,savedItems,savedLabels,currItemIndex;
+    QList<QwtPlotItem*> mPlotItemsList;
+    QList<QwtPlotMarker*> mItemLabels;
+    QwtText labelText;
+    QwtPlotMarker *textMarker;
+    QPolygonF poly_stat, poly_rect, poly_ellipse;
+    bool moveSelection;
+    bool resizeSelection;
+    void setYAxisTitle( QString );
+    void setXAxisTitle( QString );
+
+public slots:
+    void construct_picker_machine(Type);
+    void destruct_picker_machine(Type);
+    void selected_RECT_ROI(QRectF);
+    void selected_ELLIPSE_ROI(QRectF);
+    void drawLineTo(QPointF);
+    void clearROIS();
+    void addItem();
+    void moved( const QPoint& pos );
+    void resize( const QPoint& pos );
+    void setItemVisible( QwtPlotShapeItem *item, bool on );
+    void raiseItem( QwtPlotShapeItem * );
+    bool pressed( const QPoint & );
+    void released( const QPoint & );
+    QwtPlotItem* itemAt( const QPoint& ) const;
+    QwtPlotItem* itemAtEdge( const QPoint& ) const;
+
+signals:
+    void enableAddButton(bool);
+    void disableAddButton(bool);
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    bool eventFilter( QObject *, QEvent * )override;
+
+private:
+    bool drawing;
+    bool drawStarted;
+    bool m_plotType;
+    bool accepted;
+    bool cmpd(double a, double b, double epsilon = 0.001);
+
+    QPointF lastPoint,startPoint;
+    QPainterPath mCurrentPath;
+    QPainterPath *mPath;
+    QPainterPathStroker mStroker;
+
+    int EllipseItemCounter,freeItemCounter;
+
+    QwtPlotPicker *rect_picker,*ellipse_picker,*free_picker;
+    QwtPickerMachine *rect_machine,*ellipse_machine,*free_machine;
+    QwtPlotShapeItem *freeItem;
+    QImage image;
+    bool ResetROIS;
+    QVector<QPointF> points;
+    QPolygonF polygon;
+};
+
+////////////////// Model for Measurements Table ////////////////////////////////
+
+
+class NumberFormatDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    explicit NumberFormatDelegate(QObject *parent = 0);
+    virtual QString displayText(const QVariant &value, const QLocale &locale) const;
+
+signals:
+
+public slots:
+
+};
+
+
+namespace Ui {
+class PostProcessing;
+}
+
+
+
+class PostProcessing:public QMainWindow
+{
+    Q_OBJECT
+public:
+    PostProcessing( ReadInputInfo *readInfo, QWidget *parent = 0);
+    ~PostProcessing();
+
+    GUI_Plot *central_Plot;
+    GUI_Plot *graphs;
+    ColorMap *cM, *cM2;
+    //PDF_Report *exp_prev;
+    //   SearchEngine * searchDatabase;
+
+
+    ///////Rectangulars//////
+    QwtPlotPicker *rect_picker;
+    QwtPickerMachine *rect_machine;
+    QwtPlotPicker *free_picker;
+    QwtPickerMachine *draw_machine;
+    QDir *SourceDir;
+    QStringList SourceFilesList;
+    qreal ***m_qrImage;
+    qreal **m_qrImageShowing;
+
+    QImage *Array_Optical;
+    QImage *Array_Xray;
+    int m_iImageNum,fussedSize,xraySize,roi_counter,itemIndex,handleIndex,labelIndex;
+    QwtPlotItemList items;
+    QList<QwtPlotItem*> ROIS;
+    QString ROI_name;
+    int counter;
+    int numList;
+    int iterations;
+    float frame_duration;
+    QList<float> framesList;
+    int exp_duration;
+    QString StudyID;
+    double contrast_percentage;
+
+    /////Pop-up measurment table///
+    QDialog *diaTable ;
+    QGridLayout *gLayout;
+    QTableWidget *measurement_table;
+    QStringList tableHeader;
+    QVector<float> mean_table,std_table,totCounts_table,ref_areas,plot_values,energy_values;
+    float *reference_img_area_counts,*copy_ref_counts;
+    QVector<int> selectedSlices;
+    QStringList selectedNames;
+    QStringList allFrames;
+    int *col,*row;
+    int red,green,blue;
+    QListWidgetItem *initRefItem;
+    QString initName,directory;
+    QString POST_PROC_path;
+    QString qsStudyInfoPath;
+    QString fileDirectory;
+
+    float convertCountsToEnergy( float );
+//    void mousePressEvent(QMouseEvent* );
+
+public slots:
+    void directFileLoader(QString);
+    void ImageSlider(int);
+    void combobox_currentIndexChanged(int);
+    void Init(QString);
+    void sliderValueChanged(int);
+    void LoadStudy_triggered();
+    void selectActivityPerROI( bool );
+    void selectCountsPerROI( bool );
+    void loadLastStudy();
+
+private slots:
+    void on_pb_rectROI_clicked(bool);
+    void on_pb_ellipseROI_clicked(bool);
+    void on_pb_freeROI_clicked(bool);
+    void on_PB_ShowLabels_toggled(bool);
+    //
+    void ShowContextMenu(const QPoint&);
+    void ShowContextMenu2(const QPoint&);
+    void addROItoList();
+    void on_PB_showRois_clicked(bool);
+    void on_ROI_list_itemClicked(QListWidgetItem *item);
+    void delete_roi();
+    void memory_dealloc();
+    void on_PB_renameRoi_pressed();
+    void on_ROI_list_itemDoubleClicked(QListWidgetItem *item);
+    void OnItemsCommitData(QWidget* pLineEdit);
+    std::tuple<float,float,float> ROI_statistics(QPolygonF points ,int image);
+    std::tuple<float,float,float> ROI_statistics(QRectF, int image);
+    void on_PB_measure_pressed();
+    void closeDialog(int);
+    void plotROIS();
+    float set_reference_area();
+    void multi_measure();
+    void color_generator(double h,double s,double v);
+    QwtSymbol* randomCurveSymbolGenerator();
+    void saveImageAs();
+    void saveImageAs( QString str );
+    void saveAllFrames();
+    void savePlotAsImage();
+    void savePlotAsImage(QString);
+    void clearAll();
+    void on_PB_updatePos_pressed();
+    void on_PB_plot_excel_pressed();
+    void on_PB_saveSelected_clicked();
+    void on_PB_merge();
+    void on_PB_pdfReport();
+    void on_cB_selection_toggled(bool checked);
+    void PB_saveAsDICOM_pressed(QString);
+    void actionExit_triggered();
+    void on_actionExit_to_Main_Menu_triggered();
+    void on_PB_dicomViewer_clicked();
+    void on_cB_fusion(bool checked);
+    void on_cB_xray(bool checked);
+    void setCheckstateXray();
+    void setCheckstateOptical();
+    void ms_sliderValueChangedMin( int );
+    void sB_max_changed(double);
+    void sB_min_changed(double);
+
+    void removeBackground();
+    void addXrayBackground();
+    void addOpticalBackground();
+    void opacityValueChanged(int);
+
+signals:
+    void closedWindow();
+
+private:
+    Ui::PostProcessing *ui;
+    Ui::PlotSelector* m_plotSelector;
+    bool rectButtonActive;
+    bool ellipseButtonActive;
+    bool freeDrawButtonActivel;
+    int m_iCurrentImage;
+
+    bool updated;
+    bool from_load, bFromLastStudy;
+    bool fastDynamic;
+    QGraphicsView* view;
+    QGraphicsScene* scene1;
+    QBrush qbrush;
+
+
+    QVector< qreal > m_qvrCorMatrix;
+
+    void mf_PB_saveAsDICOM(QString, int);
+    void writeImage(cv::Mat, std::string);
+
+
+    double m_tempMin;
+    double m_tempMax;
+
+    cv::Mat m_cvOpticalImage,m_cvXrayImage;
+    void mf_loadOpticalImage();
+    bool m_bOpticalSet;
+    std::string m_sLutFilename;
+
+
+    QStringList m_qslImagesNames;
+
+    QString m_sFrameUnit;
+    QString m_sExpUnit;
+    QString m_sNuclideUnit;
+    float frameDurationInit,expDurationInit;
+
+    ReadInputInfo* m_pReadInfo;
+    int m_iNucliedID;
+
+    QDialog* m_qDialogPlotSelect;
+    bool m_isFirstPlotted;
+    bool m_bIsBeta;
+    bool m_isXrayChecked = false,  m_isOpticalChecked = false;
+    bool m_merged=false;
+    QMutex mutex;
+    bool m_minBool=false, m_maxBool=false;
+    double m_imgMin, m_imgMax;
+    double contrastMin, contrastMax;
+
+    int m_device=0;
+    int m_iCollimatorId;
+    QString m_qsNuclideName, m_qsCollimator;
+    QStringList m_Flips;
+    spectIsotope m_oSpectIsotope;
+};
+
+#endif // POSTPROCESSING_H

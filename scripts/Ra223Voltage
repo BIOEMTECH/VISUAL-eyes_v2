@@ -1,0 +1,2 @@
+#!/bin/bash
+echo -e hv10 > /dev/ttyArduino

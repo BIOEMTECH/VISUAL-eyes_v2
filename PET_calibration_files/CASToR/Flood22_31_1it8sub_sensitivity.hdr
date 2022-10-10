@@ -1,0 +1,35 @@
+!INTERFILE := 
+!imaging modality := PET
+!version of keys := CASToRv2.0.1
+CASToR version := 2.0.1
+
+!GENERAL DATA := 
+!originating system := PET_BEYE_24x48
+!data offset in bytes := 0
+!name of data file := Flood22_31_1it8sub_sensitivity.img
+patient name := Flood22_31_1it8sub_sensitivity
+
+!GENERAL IMAGE DATA 
+!type of data := Dynamic
+!total number of images := 120
+imagedata byte order := LITTLEENDIAN
+!number of frame groups :=1 
+process status := 
+
+!STATIC STUDY (General) :=
+number of dimensions := 3
+!matrix size [1] := 60
+!matrix size [2] := 60
+!matrix size [3] := 120
+!number format := short float
+!number of bytes per pixel := 4
+scaling factor (mm/pixel) [1] := 0.8333333
+scaling factor (mm/pixel) [2] := 0.8333333
+scaling factor (mm/pixel) [3] := 0.8333333
+first pixel offset (mm) [1] := 0
+first pixel offset (mm) [2] := 0
+first pixel offset (mm) [3] := 0
+data rescale offset := 0
+data rescale slope := 1
+quantification units := 1
+!END OF INTERFILE := 

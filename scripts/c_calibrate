@@ -1,0 +1,3 @@
+#!/bin/bash
+echo -e cc > /dev/ttyArduino
+

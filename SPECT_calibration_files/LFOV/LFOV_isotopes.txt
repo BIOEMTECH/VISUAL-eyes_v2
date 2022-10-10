@@ -1,0 +1,142 @@
+#List of isotopes 
+In111_name:In111
+In111_type:Type1
+In111_energies:energies_SGC_202101_011_In111.txt
+In111_flood:flood_40_SGC_202101_011_In111.txt
+In111_grid:grid_SGC_202101_012_Lu177.txt
+In111_energy_window_up:0.2
+In111_energy_window_low:0.2
+In111_energy_peak:170
+In111_lambda:2.835e-6
+In111_arduino:InVoltage
+In111_lim1: 490
+In111_lim2: 3000
+In111_a1: 1.0878 
+In111_b1: -25.2784
+In111_a2: 1.0878
+In111_b2: -25.2784
+In111_a3: 0.9879
+In111_b3: 27.7241
+
+#######
+Lu177_name:Lu177
+Lu177_type:Type1
+Lu177_energies:energies_SGC_202101_012_Lu177_208.txt
+Lu177_flood:flood_dual_60_20_SGC_202101_012_Lu177.txt
+Lu177_grid:grid_SGC_202101_012_Lu177.txt
+Lu177_energy_window_up:0.2
+Lu177_energy_window_low:0.6
+Lu177_energy_peak:208
+Lu177_lambda:1.21e-6
+Lu177_arduino:LuVoltage
+Lu177_lim1: 400
+Lu177_lim2: 2000
+Lu177_a1: 1.507
+Lu177_b1: 284.16
+Lu177_a2: 1.4779
+Lu177_b2: 458.9
+Lu177_a3: 1.4602
+Lu177_b3: 656.5
+
+
+############
+Tc99m_name:Tc99m
+Tc99m_type:Type1
+Tc99m_energies:energies_SGC_202101_011_Tc99m.txt
+Tc99m_flood:flood_40_SGC_202101_011_Tc99m.txt
+Tc99m_grid:grid_SGC_202101_012_Lu177.txt
+Tc99m_energy_window_up:0.2
+Tc99m_energy_window_low:0.2
+Tc99m_energy_peak:140
+Tc99m_lambda:3.2e-5
+Tc99m_arduino:TcVoltage
+Tc99m_lim1: 1500
+Tc99m_lim2: 40000
+Tc99m_a1: 0.2579
+Tc99m_b1: 9.0387
+Tc99m_a2: 0.2391
+Tc99m_b2: 16.098
+Tc99m_a3: 0.2358 
+Tc99m_b3: 1941.8
+
+##########
+Ga67_name:Ga67
+Ga67_type:Type1
+Ga67_energies:energies_SGC_202101_011_Ga67.txt
+Ga67_flood:flood_60_20_SGC_202101_011_Lu177_208_dual.txt
+Ga67_grid:grid_SGC_202101_012_Lu177.txt
+Ga67_energy_window_up:0.2
+Ga67_energy_window_low:0.2
+Ga67_energy_peak:90
+Ga67_lambda:2.459e-6
+Ga67_arduino:GaVoltage
+Ga67_lim1: 1000
+Ga67_lim2: 40000
+Ga67_a1: 0.4162
+Ga67_b1: 8.4307
+Ga67_a2: 0.4304
+Ga67_b2: -8.668
+Ga67_a3: 0.4561 
+Ga67_b3: 68.408
+
+##########
+I123_name:I123
+I123_type:Type1
+I123_energies:energies_SGC_202101_011_I123.txt
+I123_flood:flood_40_SGC_202101_011_Tc99m.txt
+I123_grid:grid_SGC_202101_012_Lu177.txt
+I123_energy_window_up:0.2
+I123_energy_window_low:0.2
+I123_energy_peak:159
+I123_lambda:1.451e-5
+I123_arduino:I123Voltage
+I123_lim1: 1000
+I123_lim2: 10000
+I123_a1: 1.456 
+I123_b1: -37
+I123_a2: 1.4266
+I123_b2: 345.08
+I123_a3: 1.4675
+I123_b3: 1201.5
+
+############
+I125_name:I125
+I125_type:Type1
+I125_energies:energies_SGC_202101_011_70keV.txt
+I125_flood:flood_40_SGC_202101_011_Tc99m.txt
+I125_grid:grid_SGC_202101_012_Lu177.txt
+I125_energy_window_up:0.2
+I125_energy_window_low:0.2
+I125_energy_peak:35
+I125_lambda:1.348e-7
+I125_arduino:I125Voltage
+I125_lim1: 1500
+I125_lim2: 40000
+I125_a1: 0.2579
+I125_b1: 9.0387
+I125_a2: 0.2391
+I125_b2: 16.098
+I125_a3: 0.2358 
+I125_b3: 1941.8
+
+###########
+Tb161_name:Tb161
+Tb161_type:Type1
+Tb161_energies:energies_SGC_202101_011_70keV.txt
+Tb161_flood:flood_40_SGC_202101_011_Tc99m.txt
+Tb161_grid:grid_SGC_202101_012_Lu177.txt
+Tb161_energy_window_up:0.2
+Tb161_energy_window_low:0.2
+Tb161_energy_peak:75
+Tb161_lambda:8.0225e-6
+Tb161_arduino:Tb161Voltage
+Tb161_lim1: 1500
+Tb161_lim2: 40000
+Tb161_a1: 0.2579
+Tb161_b1: 9.0387
+Tb161_a2: 0.2391
+Tb161_b2: 16.098
+Tb161_a3: 0.2358 
+Tb161_b3: 1941.8
+
+

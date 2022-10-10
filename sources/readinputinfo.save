@@ -1,0 +1,775 @@
+#include "headers/readinputinfo.h"
+
+ReadInputInfo::ReadInputInfo():m_bUseExpDecay(false){}
+ReadInputInfo::~ReadInputInfo(){}
+
+void ReadInputInfo::readFile(){
+    std::string homepath = getenv("HOME");
+    QString qsHome = QString::fromStdString( homepath );
+    QString qsFileName = qsHome + "\/.Visual-Eyes\/visualeyesinit";
+    QFile inputFile(qsFileName);
+
+    if (inputFile.open(QIODevice::ReadOnly)) {
+        QTextStream in( &inputFile );
+        while ( !in.atEnd() ) {
+            QString line  = in.readLine();
+
+            if ( line.isEmpty() ) continue;
+            if ( line.startsWith("#") ) continue;
+
+            QStringList tokens = line.split(":");
+
+            if ( tokens[ 0 ] == "System")
+                m_qsSystemName = tokens[1].trimmed();
+            else if ( tokens[0]=="Collimators"){
+                QString tmp=tokens[1].trimmed();
+                QStringList tmpL=tmp.split(",");
+                foreach (QString entry, tmpL) {
+                   m_qslCollimators.append(entry.trimmed());
+                }
+
+            }
+            else if ( tokens[ 0 ] == "In111_Energies")
+                m_qsIn111Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "In111_Flood")
+                m_qsIn111Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "In111_Grid")
+                m_qsIn111Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Lu177_Energies")
+                m_qsLu177Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Lu177_Flood")
+                m_qsLu177Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Lu177_Grid")
+                m_qsLu177Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Tc99m_Energies")
+                m_qsTc99mEnergies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Tc99m_Flood")
+                m_qsTc99mFlood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Tc99m_Grid")
+                m_qsTc99mGrid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_Energies1")
+                m_qsPb203Energies1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_EnergiesUpSc")
+                m_qsPb203EnergiesUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_EnergiesLowSc")
+                m_qsPb203EnergiesLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_Flood1")
+                m_qsPb203Flood1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_FloodUpSc")
+                m_qsPb203FloodUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_FloodLowSc")
+                m_qsPb203FloodLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb203_Energy_window_up_g_sc")
+                m_qsPb203EnWinUpGsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb203_Energy_window_low_g_sc")
+                m_qsPb203EnWinLowGsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb203_Energy_window_up_g")
+                m_qsPb203EnWinUpG = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb203_Energy_window_low_g")
+                m_qsPb203EnWinLowG = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb203_Grid")
+                m_qsPb203Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Energies1")
+                m_qsPb212Energies1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Energies2")
+                m_qsPb212Energies2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_EnergiesUpSc")
+                m_qsPb212EnergiesUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_EnergiesLowSc")
+                m_qsPb212EnergiesLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Flood1")
+                m_qsPb212Flood1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Flood2")
+                m_qsPb212Flood2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_FloodUpSc")
+                m_qsPb212FloodUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_FloodLowSc")
+                m_qsPb212FloodLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Grid")
+                m_qsPb212Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_up_x")
+                m_qsPb212EnWinUpX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_low_x")
+                m_qsPb212EnWinLowX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_up_x_sc")
+                m_qsPb212EnWinUpXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_low_x_sc")
+                m_qsPb212EnWinLowXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_up_g")
+                m_qsPb212EnWinUpG = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Pb212_Energy_window_low_g")
+                m_qsPb212EnWinLowG = tokens[1].toDouble();
+
+
+
+            else if ( tokens[ 0 ] == "Ac225_Energies1")
+                m_qsAc225Energies1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_Energies2")
+                m_qsAc225Energies2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_EnergiesUpSc")
+                m_qsAc225EnergiesUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_EnergiesLowSc")
+                m_qsAc225EnergiesLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_Flood1")
+                m_qsAc225Flood1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_Flood2")
+                m_qsAc225Flood2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_FloodUpSc")
+                m_qsAc225FloodUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_FloodLowSc")
+                m_qsAc225FloodLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_Grid")
+                m_qsAc225Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_up_x")
+                m_qsAc225EnWinUpX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_low_x")
+                m_qsAc225EnWinLowX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_up_x_sc")
+                m_qsAc225EnWinUpXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_low_x_sc")
+                m_qsAc225EnWinLowXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_up_g")
+                m_qsAc225EnWinUpG = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ac225_Energy_window_low_g")
+                m_qsAc225EnWinLowG = tokens[1].toDouble();
+
+            else if ( tokens[ 0 ] == "Ra223_Energies1")
+                m_qsRa223Energies1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_Energies2")
+                m_qsRa223Energies2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_EnergiesUpSc")
+                m_qsRa223EnergiesUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_EnergiesLowSc")
+                m_qsRa223EnergiesLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_Flood1")
+                m_qsRa223Flood1 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_Flood2")
+                m_qsRa223Flood2 = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_FloodUpSc")
+                m_qsRa223FloodUpSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_FloodLowSc")
+                m_qsRa223FloodLowSc = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_Grid")
+                m_qsRa223Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_up_x")
+                m_qsRa223EnWinUpX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_low_x")
+                m_qsRa223EnWinLowX = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_up_x_sc")
+                m_qsRa223EnWinUpXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_low_x_sc")
+                m_qsRa223EnWinLowXsc = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_up_g")
+                m_qsRa223EnWinUpG = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Ra223_Energy_window_low_g")
+                m_qsRa223EnWinLowG = tokens[1].toDouble();
+
+            else if ( tokens[ 0 ] == "Ga67_Energies")
+                m_qsGa67Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ga67_Flood")
+                m_qsGa67Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Ga67_Grid")
+                m_qsGa67Grid = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "I123_Energies")
+                m_qsI123Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "I123_Flood")
+                m_qsI123Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "I123_Grid")
+                m_qsI123Grid = tokens[1].trimmed();
+
+            else if ( tokens[ 0 ] == "I125_Energies")
+                m_qsI125Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "I125_Flood")
+                m_qsI125Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "I125_Grid")
+                m_qsI125Grid = tokens[1].trimmed();
+
+            else if ( tokens[ 0 ] == "Tb161_Energies")
+                m_qsTb161Energies = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Tb161_Flood")
+                m_qsTb161Flood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Tb161_Grid")
+                m_qsTb161Grid = tokens[1].trimmed();
+
+            else if ( tokens[ 0 ] == "Camera")
+                m_qsCameraID = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Arduino")
+                m_qsArduino = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "head_A_x_param1")
+                m_dHeadAxParam1 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_A_x_param2")
+                m_dHeadAxParam2 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_A_y_param1")
+                m_dHeadAyParam1 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_A_y_param2")
+                m_dHeadAyParam2 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_B_x_param1")
+                m_dHeadBxParam1 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_B_x_param2")
+                m_dHeadBxParam2 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_B_y_param1")
+                m_dHeadByParam1 = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "head_B_y_param2")
+                m_dHeadByParam2 = tokens[1].toDouble();           
+            else if ( tokens[ 0 ] == "Energy_window_up")
+                m_energyUp = tokens[1].toInt();
+            else if ( tokens[ 0 ] == "Energy_window_low")
+                m_energyLow = tokens[1].toInt();
+            else if ( tokens[ 0 ] == "Raw_energy_up")
+                m_rawenergy_up = tokens[1].toFloat();
+            else if ( tokens[ 0 ] == "Raw_energy_low")
+                m_rawenergy_low = tokens[1].toFloat();
+            else if ( tokens[ 0 ] == "Time_window")
+                m_time_window = tokens[1].toFloat();
+            else if ( tokens[ 0 ] == "Print_raw"){
+                QString tmp = tokens[1].trimmed();
+                if(tmp=="ON" || tmp=="on" ||tmp=="On"){
+                    m_print_mode=true;
+                }else {
+                    m_print_mode=false;
+                }
+            }
+            else if ( tokens[ 0 ] == "Energies_A")
+                m_qsEnergiesA = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Energies_B")
+                m_qsEnergiesB = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Grid_A")
+                m_qsGridA = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Grid_B")
+                m_qsGridB = tokens[1].trimmed();
+//            else if ( tokens[ 0 ] == "Flood")
+//                m_qsFlood = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Acceptance_angle")
+                m_dAcceptanceAngle = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Castor_flood")
+                m_qsCastorFloodFile = tokens[1].trimmed();
+            else if ( tokens[ 0 ] == "Castor_meanVal")
+                m_dCastorMeanVal = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "Castor_thresVal")
+                m_dCastorThresVal = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "FPT_meanVal")
+                m_dFPTMeanVal = tokens[1].toDouble();
+            else if ( tokens[ 0 ] == "FPT_thresVal")
+                m_dFPTThresVal = tokens[1].toDouble();
+            else if ( tokens[0] == "Tc99m_lim1")
+                m_dTc99m_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_lim2")
+                m_dTc99m_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_a1")
+                m_dTc99m_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_b1")
+                m_dTc99m_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_a2")
+                m_dTc99m_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_b2")
+                m_dTc99m_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_a3")
+                m_dTc99m_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tc99m_b3")
+                m_dTc99m_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_lim1")
+                m_dPb203_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_lim2")
+                m_dPb203_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_a1")
+                m_dPb203_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_b1")
+                m_dPb203_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_a2")
+                m_dPb203_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_b2")
+                m_dPb203_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_a3")
+                m_dPb203_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb203_b3")
+                m_dPb203_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_lim1")
+                m_dPb212_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_lim2")
+                m_dPb212_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_a1")
+                m_dPb212_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_b1")
+                m_dPb212_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_a2")
+                m_dPb212_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_b2")
+                m_dPb212_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_a3")
+                m_dPb212_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Pb212_b3")
+                m_dPb212_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "Ac225_lim1")
+                m_dAc225_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_lim2")
+                m_dAc225_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_a1")
+                m_dAc225_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_b1")
+                m_dAc225_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_a2")
+                m_dAc225_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_b2")
+                m_dAc225_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_a3")
+                m_dAc225_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ac225_b3")
+                m_dAc225_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "Ra223_lim1")
+                m_dRa223_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_lim2")
+                m_dRa223_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_a1")
+                m_dRa223_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_b1")
+                m_dRa223_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_a2")
+                m_dRa223_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_b2")
+                m_dRa223_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_a3")
+                m_dRa223_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ra223_b3")
+                m_dRa223_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "In111_lim1")
+                m_dIn111_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_lim2")
+                m_dIn111_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_a1")
+                m_dIn111_a1= tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_b1")
+                m_dIn111_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_a2")
+                m_dIn111_a2= tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_b2")
+                m_dIn111_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_a3")
+                m_dIn111_a3= tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "In111_b3")
+                m_dIn111_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_lim1")
+                m_dLu177_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_lim2")
+                m_dLu177_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_a1")
+                m_dLu177_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_b1")
+                m_dLu177_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_a2")
+                m_dLu177_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_b2")
+                m_dLu177_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_a3")
+                m_dLu177_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Lu177_b3")
+                m_dLu177_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_lim1")
+                m_dGa67_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_lim2")
+                m_dGa67_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_a1")
+                m_dGa67_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_b1")
+                m_dGa67_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_a2")
+                m_dGa67_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_b2")
+                m_dGa67_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_a3")
+                m_dGa67_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga67_b3")
+                m_dGa67_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_lim1")
+                m_dI123_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_lim2")
+                m_dI123_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_a1")
+                m_dI123_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_b1")
+                m_dI123_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_a2")
+                m_dI123_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_b2")
+                m_dI123_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_a3")
+                m_dI123_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I123_b3")
+                m_dI123_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "I125_lim1")
+                m_dI125_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_lim2")
+                m_dI125_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_a1")
+                m_dI125_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_b1")
+                m_dI125_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_a2")
+                m_dI125_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_b2")
+                m_dI125_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_a3")
+                m_dI125_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I125_b3")
+                m_dI125_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "Tb161_lim1")
+                m_dTb161_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_lim2")
+                m_dTb161_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_a1")
+                m_dTb161_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_b1")
+                m_dTb161_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_a2")
+                m_dTb161_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_b2")
+                m_dTb161_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_a3")
+                m_dTb161_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb161_b3")
+                m_dTb161_b3 = tokens[ 1 ].toDouble();
+
+            else if ( tokens[0] == "nuclide_lim1")
+                m_dNuclide_lim1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_lim2")
+                m_dNuclide_lim2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_lim3")
+                m_dNuclide_lim3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_a1")
+                m_dNuclide_a1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_b1")
+                m_dNuclide_b1 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_a2")
+                m_dNuclide_a2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_b2")
+                m_dNuclide_b2 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_a3")
+                m_dNuclide_a3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "nuclide_b3")
+                m_dNuclide_b3 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "deconvolution_res0")
+                m_dRes0 = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "deconvolution_arg")
+                m_dArg = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "deconvolution_dist1")
+                m_iDist1 = tokens[ 1 ].toInt();
+            else if ( tokens[0] == "deconvolution_dist2")
+                m_iDist2 = tokens[ 1 ].toInt();
+            else if ( tokens[0] == "deconvolution_pixelSize")
+                m_dPixelSize = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "deconvolution_iterations")
+                m_iIterations = tokens[ 1 ].toInt();
+            else if ( tokens[0] == "deconvolution_dampar")
+                m_dDampar = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "deconvolution_histAdj")
+                m_dHistAdj = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "CastorSubsets")
+                m_sCastorSubsets = tokens[ 1 ].trimmed();
+            else if ( tokens[0] == "CastorIterations")
+                m_sCastorIter = tokens[ 1 ].trimmed();
+            else if ( tokens[0] == "CastorPSF")
+                if(tokens.size()>2){
+                    m_sCastorPsf = tokens[ 1 ].trimmed()+"::"+tokens[3].trimmed();
+                }else {
+                    m_sCastorPsf = tokens[ 1 ].trimmed();
+                }
+            else if ( tokens[0] == "F18_lambda")
+                m_dF18_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga68_lambda")
+                m_dGa68_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "C11_lambda")
+                m_dC11_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "N13_lambda")
+                m_dN13_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "O15_lambda")
+                m_dO15_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Cu62_lambda")
+                m_dCu62_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Cu64_lambda")
+                m_dCu64_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Zr89_lambda")
+                m_dZr89_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Rb82_lambda")
+                m_dRb82_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I124_lambda")
+                m_dI124_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Br76_lambda")
+                m_dBr76_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb152_lambda")
+                m_dTb152_lambda = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "F18_preExp")
+                m_dF18_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Ga68_preExp")
+                m_dGa68_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "C11_preExp")
+                m_dC11_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "N13_preExp")
+                m_dN13_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "O15_preExp")
+                m_dO15_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Cu62_preExp")
+                m_dCu62_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Cu64_preExp")
+                m_dCu64_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Zr89_preExp")
+                m_dZr89_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Rb82_preExp")
+                m_dRb82_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "I124_preExp")
+                m_dI124_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Br76_preExp")
+                m_dBr76_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Tb152_preExp")
+                m_dTb152_preExp = tokens[ 1 ].toDouble();
+            else if ( tokens[0] == "Decay")
+                m_bUseExpDecay = true;
+            else if(tokens[0] == "Sensor_temperature_threshold")
+                m_temp_threshold=tokens[1].toFloat();
+            else if(tokens[0] == "Sensor_reference_temperature")
+                m_ref_temp=tokens[1].toFloat();
+            else if ( tokens[0] == "Gaussian_kernel")
+                m_gaussKernel = tokens[1].toInt();
+            else if ( tokens[0] == "Flip" ){
+                QStringList inputFlips = tokens[ 1 ].split(",");
+                foreach ( QString flip,  inputFlips){
+                    m_qslFlips.append(flip.trimmed());
+                }
+            }
+            else if ( tokens[0] == "Image_crop" ){
+                QString tmp = tokens[1].trimmed();
+                m_imgcrop = tmp.split(",");
+            }
+            else if ( tokens[0] == "Start_frame" ){
+                m_startFrame= tokens[1].toInt();
+            }
+            else if ( tokens[0] == "End_frame" ){
+                m_endFrame = tokens[1].toInt();
+            }
+            else if ( tokens[0] == "Step_frame" ){
+                m_stepFrame = tokens[1].toInt();
+            }
+
+        }
+        inputFile.close();
+        if(m_qsSystemName.contains("SGC")){
+            readSpectCalibration(m_qslCollimators);
+        }
+    }
+    else {
+        QMessageBox::critical(0,"Visual-Eyes error","The input info file could not be open. Please contact technical suppport.");
+    }
+
+}
+
+void ReadInputInfo::readSpectCalibration(QStringList collimators){
+    QString spectFilepath=QDir::currentPath()+"/SPECT_calibration_files/";
+    QString isoKey;
+    foreach (QString collimator, collimators) {
+        QString collimatorPath=spectFilepath+collimator+"/";
+        QString isotopeFilepath=collimatorPath+collimator+"_isotopes.txt";
+        QFile isotopeFile(isotopeFilepath);
+        if (isotopeFile.open(QIODevice::ReadOnly)) {
+            QTextStream in( &isotopeFile );
+            while ( !in.atEnd() ) {
+                QString line  = in.readLine();
+                if ( line.isEmpty() ) continue;
+                if ( line.startsWith("#") ) continue;
+                QStringList tokens = line.split(":");
+
+
+                if (tokens[0].contains("name")){
+                   isoKey=tokens[1];
+                   if (!m_qhCollimatorIsotopes[collimator].contains(isoKey))
+                       m_qhCollimatorIsotopes[collimator].append(isoKey);
+                }
+                if (tokens[0].contains(isoKey))
+                    m_qhIsotopesInfo[collimator+"_"+isoKey].append(line);
+
+
+                qDebug() << collimator+"_"+isoKey << endl;
+
+
+
+            }
+            qDebug()<<m_qhIsotopesInfo["LFOV_In111"]<< endl;
+            qDebug()<<m_qhCollimatorIsotopes["LFOV"]<< endl;
+
+
+        }
+    }
+}
+
+spectIsotope ReadInputInfo::getSpectIsotope(QString colName, QString nuclName){
+    double lim1=0.0, lim2=0.0, a1=0.0, a2=0.0, a3=0.0, b1=0.0, b2=0.0, b3=0.0;
+    double peak=0.0, lambda=0.0;
+    QString name, type;
+    QString energyX, energyG;
+    QString floodX, floodG;
+    QString energyUpScatterX, energyLowScatterX;
+    QString energyUpScatterG, energyLowScatterG;
+    QString floodUpScatterX, floodLowScatterX;
+    QString floodUpScatterG, floodLowScatterG;
+    QString grid;
+    QString voltage;
+    double enWinUpX=0.0, enWinLowX=0.0, enWinUpG=0.0, enWinLowG=0.0, enWinUpScatterX=0.0, enWinLowScatterX=0.0, enWinUpScatterG=0.0, enWinLowScatterG=0.0;
+
+    QStringList isotopeInfo=m_qhIsotopesInfo[colName+"_"+nuclName];
+    foreach (QString attribute, isotopeInfo) {
+        QStringList tokens = attribute.split(":");
+        tokens[0].remove(nuclName+"_");
+        if(tokens[0]=="name")
+            name=tokens[1].trimmed();
+        if(tokens[0].contains("type"))
+            type=tokens[1].trimmed();
+
+        ///Read energy files
+        if(tokens[0]=="energies")
+            energyG=tokens[1].trimmed();
+        if(tokens[0]=="energies_x")
+            energyX=tokens[1].trimmed();
+        if(tokens[0]=="energies_g")
+            energyG=tokens[1].trimmed();
+        if(tokens[0]=="energies_up_x_sc")
+            energyUpScatterX=tokens[1].trimmed();
+        if(tokens[0]=="energies_low_x_sc")
+            energyLowScatterX=tokens[1].trimmed();
+        if(tokens[0]=="energies_up_g_sc")
+            energyUpScatterG=tokens[1].trimmed();
+        if(tokens[0]=="energies_low_g_sc")
+            energyLowScatterG=tokens[1].trimmed();
+
+        ///Read flood files
+        if(tokens[0]=="flood")
+            floodG=tokens[1].trimmed();
+        if(tokens[0]=="flood_x")
+            floodX=tokens[1].trimmed();
+        if(tokens[0]=="flood_g")
+            floodG=tokens[1].trimmed();
+        if(tokens[0]=="flood_up_x_sc")
+            floodUpScatterX=tokens[1].trimmed();
+        if(tokens[0]=="flood_low_x_sc")
+            floodLowScatterX=tokens[1].trimmed();
+        if(tokens[0]=="flood_up_g_sc")
+            floodUpScatterG=tokens[1].trimmed();
+        if(tokens[0]=="flood_low_g_sc")
+            floodLowScatterG=tokens[1].trimmed();
+
+        ///Read grid
+        if(tokens[0]=="grid")
+            grid=tokens[1].trimmed();
+
+        if(tokens[0]=="energy_window_up"){
+            enWinUpG=tokens[1].trimmed().toDouble();
+            qDebug() << "**"<< enWinUpG <<endl;
+        }
+        if(tokens[0]=="energy_window_low")
+            enWinLowG=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_up_g")
+            enWinUpG=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_low_g")
+            enWinLowG=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_up_x")
+            enWinUpX=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_low_x")
+            enWinLowX=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_up_x_sc")
+            enWinUpScatterX=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_low_x_sc")
+            enWinLowScatterX=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_up_g_sc")
+            enWinUpScatterG=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="energy_window_low_g_sc")
+            enWinLowScatterG=tokens[1].trimmed().toDouble();
+
+        if(tokens[0]=="energy_peak")
+            peak=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="lambda")
+            lambda=tokens[1].trimmed().toDouble();
+        if(tokens[0]=="arduino")
+            voltage=tokens[1].trimmed();
+
+        if(tokens[0]=="lim1")
+            lim1 = tokens[1].toDouble();
+        if(tokens[0]=="lim2")
+            lim2 = tokens[1].toDouble();
+        if( tokens[0]=="a1")
+            a1 = tokens[1].toDouble();
+        if(tokens[0]=="b1")
+            b1 = tokens[1].toDouble();
+        if(tokens[0]=="a2")
+            a2 = tokens[1].toDouble();
+        if(tokens[0]=="b2")
+            b2 = tokens[1].toDouble();
+        if(tokens[0]=="a3")
+            a3 = tokens[1].toDouble();
+        if(tokens[0]=="b3")
+            b3 = tokens[1].toDouble();
+
+    }
+    int tid=0;
+    if(type=="Type1"){
+        tid=0;
+    }else if (type=="Type2"){
+        tid=1;
+    }else{
+        tid=2;
+    }
+    spectIsotope newIsotope(name,1);
+    newIsotope.setType(tid);
+    if(type=="Type1"){
+        newIsotope.setEnergyG(energyG);
+        newIsotope.setFloodG(floodG);
+
+        newIsotope.setEnWinUpG(enWinUpG);
+        newIsotope.setEnWinLowG(enWinLowG);
+
+    }else if(type=="Type2"){
+        newIsotope.setEnergyG(energyG);
+        newIsotope.setEnergyX(energyX);
+        newIsotope.setEnergyUpScatterX(energyUpScatterX);
+        newIsotope.setEnergyLowScatterX(energyLowScatterX);
+        newIsotope.setFloodG(floodG);
+        newIsotope.setFloodX(floodX);
+        newIsotope.setFloodUpScatterX(floodUpScatterX);
+        newIsotope.setFloodLowScatterX(floodLowScatterX);
+
+        newIsotope.setEnWinUpG(enWinUpG);
+        newIsotope.setEnWinLowG(enWinLowG);
+        newIsotope.setEnWinUpX(enWinUpX);
+        newIsotope.setEnWinLowX(enWinLowX);
+        newIsotope.setEnWinUpScatterX(enWinUpScatterX);
+        newIsotope.setEnWinLowScatterX(enWinLowScatterX);
+
+    }else{
+
+        newIsotope.setEnergyG(energyG);
+        newIsotope.setEnergyUpScatterG(energyUpScatterG);
+        newIsotope.setEnergyLowScatterG(energyLowScatterG);
+        newIsotope.setFloodG(floodG);
+        newIsotope.setFloodUpScatterG(floodUpScatterG);
+        newIsotope.setFloodLowScatterG(floodLowScatterG);
+
+        newIsotope.setEnWinUpG(enWinUpG);
+        newIsotope.setEnWinLowG(enWinLowG);
+        newIsotope.setEnWinUpScatterG(enWinUpScatterG);
+        newIsotope.setEnWinLowScatterG(enWinLowScatterG);
+        qDebug() << "**"<< enWinUpG <<endl;
+        qDebug() << "**"<< newIsotope.getEnWinUpG() <<endl;
+    }
+    newIsotope.setGrid(grid);
+    newIsotope.setEnergyPeak(peak);
+    newIsotope.setLambda(lambda);
+    newIsotope.setVoltage(voltage);
+    newIsotope.setActivityCurves(lim1,lim2,0.0,a1,b1,a2,b2,a3,b3);
+
+    qDebug() << "Lim1"<<" "<< newIsotope.getEnergyPeak() << newIsotope.getLimit2()<< " "<< newIsotope.getA1()<<" " <<newIsotope.getB1()<< endl;
+
+
+    return newIsotope;
+
+}
+

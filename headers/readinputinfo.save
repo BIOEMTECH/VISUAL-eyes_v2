@@ -1,0 +1,677 @@
+#ifndef READINPUTINFO_H
+#define READINPUTINFO_H
+
+/* This class read the file located in .Visual-Eyes which contains information about the system. In particular:
+ * \The name of the system, for each nucleid the name of the files and the camera id. */
+#include <QString>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QHash>
+#include "headers/isotope.h"
+
+class ReadInputInfo
+{
+public:
+    ReadInputInfo();
+    ~ReadInputInfo();
+
+    void readFile();
+    void readSpectCalibration(QStringList);
+
+    inline QString getSystemName(){return m_qsSystemName; }
+
+    //---> For gamma
+    inline QString getIn111EnergyFileName(){return m_qsIn111Energies; }
+    inline QString getIn111FloodFileName(){return m_qsIn111Flood; }
+    inline QString getIn111GridFileName(){return m_qsIn111Grid; }
+
+    inline QString getLu177EnergyFileName(){return m_qsLu177Energies; }
+    inline QString getLu177FloodFileName(){return m_qsLu177Flood; }
+    inline QString getLu177GridFileName(){return m_qsLu177Grid; }
+
+    inline QString getTc99mEnergyFileName(){return m_qsTc99mEnergies; }
+    inline QString getTc99mFloodFileName(){return m_qsTc99mFlood; }
+    inline QString getTc99mGridFileName(){return m_qsTc99mGrid; }
+
+    inline QString getPb203EnergyFileName1(){return m_qsPb203Energies1; }
+    inline QString getPb203EnergyFileNameUpSc(){return m_qsPb203EnergiesUpSc; }
+    inline QString getPb203EnergyFileNameLowSc(){return m_qsPb203EnergiesLowSc; }
+    inline QString getPb203FloodFileName1(){return m_qsPb203Flood1; }
+    inline QString getPb203FloodFileNameUpSc(){return m_qsPb203FloodUpSc; }
+    inline QString getPb203FloodFileNameLowSc(){return m_qsPb203FloodLowSc; }
+    inline QString getPb203GridFileName(){return m_qsPb203Grid; }
+
+    inline double getPb203EnWinLowGsc(){return m_qsPb203EnWinLowGsc; }
+    inline double getPb203EnWinUpGsc(){return m_qsPb203EnWinUpGsc; }
+    inline double getPb203EnWinLowG(){return m_qsPb203EnWinLowG; }
+    inline double getPb203EnWinUpG(){return m_qsPb203EnWinUpG; }
+
+    inline QString getPb212EnergyFileName1(){return m_qsPb212Energies1; }
+    inline QString getPb212EnergyFileName2(){return m_qsPb212Energies2; }
+    inline QString getPb212EnergyFileNameUpSc(){return m_qsPb212EnergiesUpSc; }
+    inline QString getPb212EnergyFileNameLowSc(){return m_qsPb212EnergiesLowSc; }
+
+    inline QString getPb212FloodFileName1(){return m_qsPb212Flood1; }
+    inline QString getPb212FloodFileName2(){return m_qsPb212Flood2; }
+    inline QString getPb212FloodFileNameUpSc(){return m_qsPb212FloodUpSc; }
+    inline QString getPb212FloodFileNameLowSc(){return m_qsPb212FloodLowSc; }
+    inline QString getPb212GridFileName(){return m_qsPb212Grid; }
+    \
+    inline double getPb212EnWinLowX(){return m_qsPb212EnWinUpX; }
+    inline double getPb212EnWinUpX(){return m_qsPb212EnWinLowX; }
+    inline double getPb212EnWinLowXsc(){return m_qsPb212EnWinLowXsc; }
+    inline double getPb212EnWinUpXsc(){return m_qsPb212EnWinUpXsc; }
+    inline double getPb212EnWinLowG(){return m_qsPb212EnWinUpG; }
+    inline double getPb212EnWinUpG(){return m_qsPb212EnWinLowG; }
+
+
+    inline QString getAc225EnergyFileName1(){return m_qsAc225Energies1; }
+    inline QString getAc225EnergyFileName2(){return m_qsAc225Energies2; }
+    inline QString getAc225EnergyFileNameUpSc(){return m_qsAc225EnergiesUpSc; }
+    inline QString getAc225EnergyFileNameLowSc(){return m_qsAc225EnergiesLowSc; }
+
+    inline QString getAc225FloodFileName1(){return m_qsAc225Flood1; }
+    inline QString getAc225FloodFileName2(){return m_qsAc225Flood2; }
+    inline QString getAc225FloodFileNameUpSc(){return m_qsAc225FloodUpSc; }
+    inline QString getAc225FloodFileNameLowSc(){return m_qsAc225FloodLowSc; }
+    inline QString getAc225GridFileName(){return m_qsAc225Grid; }
+    \
+    inline double getAc225EnWinLowX(){return m_qsAc225EnWinUpX; }
+    inline double getAc225EnWinUpX(){return m_qsAc225EnWinLowX; }
+    inline double getAc225EnWinLowXsc(){return m_qsAc225EnWinLowXsc; }
+    inline double getAc225EnWinUpXsc(){return m_qsAc225EnWinUpXsc; }
+    inline double getAc225EnWinLowG(){return m_qsAc225EnWinUpG; }
+    inline double getAc225EnWinUpG(){return m_qsAc225EnWinLowG; }
+
+    inline QString getRa223EnergyFileName1(){return m_qsRa223Energies1; }
+    inline QString getRa223EnergyFileName2(){return m_qsRa223Energies2; }
+    inline QString getRa223EnergyFileNameUpSc(){return m_qsRa223EnergiesUpSc; }
+    inline QString getRa223EnergyFileNameLowSc(){return m_qsRa223EnergiesLowSc; }
+
+    inline QString getRa223FloodFileName1(){return m_qsRa223Flood1; }
+    inline QString getRa223FloodFileName2(){return m_qsRa223Flood2; }
+    inline QString getRa223FloodFileNameUpSc(){return m_qsRa223FloodUpSc; }
+    inline QString getRa223FloodFileNameLowSc(){return m_qsRa223FloodLowSc; }
+    inline QString getRa223GridFileName(){return m_qsRa223Grid; }
+    \
+    inline double getRa223EnWinLowX(){return m_qsRa223EnWinUpX; }
+    inline double getRa223EnWinUpX(){return m_qsRa223EnWinLowX; }
+    inline double getRa223EnWinLowXsc(){return m_qsRa223EnWinLowXsc; }
+    inline double getRa223EnWinUpXsc(){return m_qsRa223EnWinUpXsc; }
+    inline double getRa223EnWinLowG(){return m_qsRa223EnWinUpG; }
+    inline double getRa223EnWinUpG(){return m_qsRa223EnWinLowG; }
+
+    inline QString getGa67EnergyFileName(){return m_qsGa67Energies; }
+    inline QString getGa67FloodFileName(){return m_qsGa67Flood; }
+    inline QString getGa67GridFileName(){return m_qsGa67Grid; }
+
+    inline QString getI123EnergyFileName(){return m_qsI123Energies; }
+    inline QString getI123FloodFileName(){return m_qsI123Flood; }
+    inline QString getI123GridFileName(){return m_qsI123Grid; }
+
+
+    inline QString getI125EnergyFileName(){return m_qsI125Energies; }
+    inline QString getI125FloodFileName(){return m_qsI125Flood; }
+    inline QString getI125GridFileName(){return m_qsI125Grid; }
+
+
+    inline QString getTb161EnergyFileName(){return m_qsTb161Energies; }
+    inline QString getTb161FloodFileName(){return m_qsTb161Flood; }
+    inline QString getTb161GridFileName(){return m_qsTb161Grid; }
+
+    inline double getDeconvRes0(){ return m_dRes0; }
+    inline double getDeconvArg(){ return m_dArg; }
+    inline int getDeconvDist1(){ return m_iDist1; }
+    inline int getDeconvDist2(){ return m_iDist2; }
+    inline double getDeconvPixelSize(){ return m_dPixelSize; }
+    inline int getDeconvIterations(){ return m_iIterations; }
+    inline double getDeconvDampar(){ return m_dDampar; }
+    inline double getDeconvHistAdj(){ return m_dHistAdj; }//<----
+
+    //---> For beta
+    inline double getHeadAxParam1(){ return m_dHeadAxParam1; }
+    inline double getHeadAxParam2(){ return m_dHeadAxParam2; }
+
+    inline double getHeadAyParam1(){ return m_dHeadAyParam1; }
+    inline double getHeadAyParam2(){ return m_dHeadAyParam2; }
+
+    inline double getHeadBxParam1(){ return m_dHeadBxParam1; }
+    inline double getHeadBxParam2(){ return m_dHeadBxParam2; }
+
+    inline double getHeadByParam1(){ return m_dHeadByParam1; }
+    inline double getHeadByParam2(){ return m_dHeadByParam2; }
+
+    inline QString getEnergiesAFileName(){ return m_qsEnergiesA; }
+    inline QString getEnergiesBFileName(){ return m_qsEnergiesB; }
+
+    inline QString getGridAFileName(){ return m_qsGridA; }
+    inline QString getGridBFileName(){ return m_qsGridB; }
+    inline QString getFloodFileName(){ return m_qsFlood; }
+
+    inline double getAcceptanceAngle(){ return m_dAcceptanceAngle; }
+
+    inline double getFPTMeanVal(){ return m_dFPTMeanVal; }
+    inline double getFPTThresVal(){ return m_dFPTThresVal; }
+
+    inline QString getCastorFloodFileName(){ return m_qsCastorFloodFile; }
+    inline double getCastorMeanVal(){ return m_dCastorMeanVal; }
+    inline double getCastorThresVal(){ return m_dCastorThresVal; }
+
+    inline QString getCastorIter(){ return m_sCastorIter; }
+    inline QString getCastorSubsets(){ return m_sCastorSubsets; }
+    inline QString getCastorPsf(){ return m_sCastorPsf; }
+
+    inline double getNuclide_lim1(){ return m_dNuclide_lim1; }
+    inline double getNuclide_lim2(){ return m_dNuclide_lim2; }
+    inline double getNuclide_lim3(){ return m_dNuclide_lim3; }
+
+    inline double getNuclide_a1(){ return m_dNuclide_a1; }
+    inline double getNuclide_b1(){ return m_dNuclide_b1; }
+
+    inline double getNuclide_a2(){ return m_dNuclide_a2; }
+    inline double getNuclide_b2(){ return m_dNuclide_b2; }
+
+    inline double getNuclide_a3(){ return m_dNuclide_a3; }
+    inline double getNuclide_b3(){ return m_dNuclide_b3; }
+
+    inline double getF18_lambda()  { return m_dF18_lambda; }
+    inline double getGa68_lambda() { return m_dGa68_lambda; }
+    inline double getC11_lambda()  { return m_dC11_lambda; }
+    inline double getN13_lambda()  { return m_dN13_lambda; }
+    inline double getO15_lambda()  { return m_dO15_lambda; }
+    inline double getCu62_lambda() { return m_dCu62_lambda; }
+    inline double getCu64_lambda() { return m_dCu64_lambda; }
+    inline double getZr89_lambda() { return m_dZr89_lambda; }
+    inline double getRb82_lambda() { return m_dRb82_lambda; }
+    inline double getI124_lambda() { return m_dI124_lambda; }
+    inline double getBr76_lambda() { return m_dBr76_lambda; }
+    inline double getTb152_lambda() { return m_dTb152_lambda; }
+
+
+    inline double getF18_preExp()  { return m_dF18_preExp; }
+    inline double getGa68_preExp() { return m_dGa68_preExp; }
+    inline double getC11_preExp()  { return m_dC11_preExp; }
+    inline double getN13_preExp()  { return m_dN13_preExp; }
+    inline double getO15_preExp()  { return m_dO15_preExp; }
+    inline double getCu62_preExp() { return m_dCu62_preExp; }
+    inline double getCu64_preExp() { return m_dCu64_preExp; }
+    inline double getZr89_preExp() { return m_dZr89_preExp; }
+    inline double getRb82_preExp() { return m_dRb82_preExp; }
+    inline double getI124_preExp() { return m_dI124_preExp; }
+    inline double getBr76_preExp() { return m_dBr76_preExp; }
+    inline double getTb152_preExp() { return m_dTb152_preExp; }
+
+    inline bool useExpDecay() { return m_bUseExpDecay; }
+    inline int getGaussKernel(){ return m_gaussKernel; }
+
+    inline double getTc99m_lim1(){ return m_dTc99m_lim1; }
+    inline double getTc99m_lim2(){ return m_dTc99m_lim2; }
+    inline double getTc99m_a1(){ return m_dTc99m_a1; }
+    inline double getTc99m_b1(){ return m_dTc99m_b1; }
+    inline double getTc99m_a2(){ return m_dTc99m_a2; }
+    inline double getTc99m_b2(){ return m_dTc99m_b2; }
+    inline double getTc99m_a3(){ return m_dTc99m_a3; }
+    inline double getTc99m_b3(){ return m_dTc99m_b3; }
+
+    inline double getIn111_lim1(){ return m_dIn111_lim1; }
+    inline double getIn111_lim2(){ return m_dIn111_lim2; }
+    inline double getIn111_a1(){ return m_dIn111_a1; }
+    inline double getIn111_b1(){ return m_dIn111_b1; }
+    inline double getIn111_a2(){ return m_dIn111_a2; }
+    inline double getIn111_b2(){ return m_dIn111_b2; }
+    inline double getIn111_a3(){ return m_dIn111_a3; }
+    inline double getIn111_b3(){ return m_dIn111_b3; }
+
+    inline double getLu177_lim1(){ return m_dLu177_lim1; }
+    inline double getLu177_lim2(){ return m_dLu177_lim2; }
+    inline double getLu177_a1(){ return m_dLu177_a1; }
+    inline double getLu177_b1(){ return m_dLu177_b1; }
+    inline double getLu177_a2(){ return m_dLu177_a2; }
+    inline double getLu177_b2(){ return m_dLu177_b2; }
+    inline double getLu177_a3(){ return m_dLu177_a3; }
+    inline double getLu177_b3(){ return m_dLu177_b3; }
+
+    inline double getPb203_lim1(){ return m_dPb203_lim1; }
+    inline double getPb203_lim2(){ return m_dPb203_lim2; }
+    inline double getPb203_a1(){ return m_dPb203_a1; }
+    inline double getPb203_b1(){ return m_dPb203_b1; }
+    inline double getPb203_a2(){ return m_dPb203_a2; }
+    inline double getPb203_b2(){ return m_dPb203_b2; }
+    inline double getPb203_a3(){ return m_dPb203_a3; }
+    inline double getPb203_b3(){ return m_dPb203_b3; }
+
+    inline double getPb212_lim1(){ return m_dPb212_lim1; }
+    inline double getPb212_lim2(){ return m_dPb212_lim2; }
+    inline double getPb212_a1(){ return m_dPb212_a1; }
+    inline double getPb212_b1(){ return m_dPb212_b1; }
+    inline double getPb212_a2(){ return m_dPb212_a2; }
+    inline double getPb212_b2(){ return m_dPb212_b2; }
+    inline double getPb212_a3(){ return m_dPb212_a3; }
+    inline double getPb212_b3(){ return m_dPb212_b3; }
+
+
+    inline double getAc225_lim1(){ return m_dAc225_lim1; }
+    inline double getAc225_lim2(){ return m_dAc225_lim2; }
+    inline double getAc225_a1(){ return m_dAc225_a1; }
+    inline double getAc225_b1(){ return m_dAc225_b1; }
+    inline double getAc225_a2(){ return m_dAc225_a2; }
+    inline double getAc225_b2(){ return m_dAc225_b2; }
+    inline double getAc225_a3(){ return m_dAc225_a3; }
+    inline double getAc225_b3(){ return m_dAc225_b3; }
+
+    inline double getRa223_lim1(){ return m_dRa223_lim1; }
+    inline double getRa223_lim2(){ return m_dRa223_lim2; }
+    inline double getRa223_a1(){ return m_dRa223_a1; }
+    inline double getRa223_b1(){ return m_dRa223_b1; }
+    inline double getRa223_a2(){ return m_dRa223_a2; }
+    inline double getRa223_b2(){ return m_dRa223_b2; }
+    inline double getRa223_a3(){ return m_dRa223_a3; }
+    inline double getRa223_b3(){ return m_dRa223_b3; }
+
+    inline double getGa67_lim1(){ return m_dGa67_lim1; }
+    inline double getGa67_lim2(){ return m_dGa67_lim2; }
+    inline double getGa67_a1(){ return m_dGa67_a1; }
+    inline double getGa67_b1(){ return m_dGa67_b1; }
+    inline double getGa67_a2(){ return m_dGa67_a2; }
+    inline double getGa67_b2(){ return m_dGa67_b2; }
+    inline double getGa67_a3(){ return m_dGa67_a3; }
+    inline double getGa67_b3(){ return m_dGa67_b3; }
+
+    inline double getI123_lim1(){ return m_dI123_lim1; }
+    inline double getI123_lim2(){ return m_dI123_lim2; }
+    inline double getI123_a1(){ return m_dI123_a1; }
+    inline double getI123_b1(){ return m_dI123_b1; }
+    inline double getI123_a2(){ return m_dI123_a2; }
+    inline double getI123_b2(){ return m_dI123_b2; }
+    inline double getI123_a3(){ return m_dI123_a3; }
+    inline double getI123_b3(){ return m_dI123_b3; }
+
+
+    inline double getI125_lim1(){ return m_dI125_lim1; }
+    inline double getI125_lim2(){ return m_dI125_lim2; }
+    inline double getI125_a1(){ return m_dI125_a1; }
+    inline double getI125_b1(){ return m_dI125_b1; }
+    inline double getI125_a2(){ return m_dI125_a2; }
+    inline double getI125_b2(){ return m_dI125_b2; }
+    inline double getI125_a3(){ return m_dI125_a3; }
+    inline double getI125_b3(){ return m_dI125_b3; }
+
+    inline double getTb161_lim1(){ return m_dTb161_lim1; }
+    inline double getTb161_lim2(){ return m_dTb161_lim2; }
+    inline double getTb161_a1(){ return m_dTb161_a1; }
+    inline double getTb161_b1(){ return m_dTb161_b1; }
+    inline double getTb161_a2(){ return m_dTb161_a2; }
+    inline double getTb161_b2(){ return m_dTb161_b2; }
+    inline double getTb161_a3(){ return m_dTb161_a3; }
+    inline double getTb161_b3(){ return m_dTb161_b3; }
+
+    inline int getEnergyWindowUp(){ return m_energyUp; }
+    inline int getEnergyWindowLow(){ return m_energyLow; }
+    inline float getTemperatureThreshold(){ return m_temp_threshold; }
+    inline float getReferenceTemperature(){ return m_ref_temp; }
+
+    inline float getRawEnergyUp(){ return m_rawenergy_up; }
+    inline float getRawEnergyLow(){ return m_rawenergy_low; }
+    inline float getTimeWindow(){ return m_time_window; }
+    inline bool getPrintMode(){ return m_print_mode; }
+
+
+    inline QHash<QString,QStringList> getHCollimators(){return m_qhCollimatorIsotopes;}
+    inline QHash<QString,QStringList> getIsotopesInfo(){return  m_qhIsotopesInfo;}
+    spectIsotope getSpectIsotope(QString,QString);
+
+    //For both
+    inline QStringList getFlips(){ return m_qslFlips; }
+    inline QStringList getCrop(){ return m_imgcrop; }
+    inline int getOpticalStart(){ return m_startFrame; }
+    inline int getOpticalEnd(){ return m_endFrame; }
+    inline int getOpticalStep(){ return m_stepFrame; }
+    inline QString getCameraID(){return m_qsCameraID; }
+    inline QString getArduinoCom(){return m_qsArduino; }
+    inline QStringList getCollimators(){return m_qslCollimators;}
+
+
+
+private:
+    QString m_qsSystemName;
+
+    QString m_qsIn111Energies;
+    QString m_qsIn111Flood;
+    QString m_qsIn111Grid;
+
+    QString m_qsLu177Energies;
+    QString m_qsLu177Flood;
+    QString m_qsLu177Grid;
+
+    QString m_qsTc99mEnergies;
+    QString m_qsTc99mFlood;
+    QString m_qsTc99mGrid;
+
+    QString m_qsPb203Energies1;
+    QString m_qsPb203EnergiesUpSc;
+    QString m_qsPb203EnergiesLowSc;
+    QString m_qsPb203Flood1;
+    QString m_qsPb203FloodUpSc;
+    QString m_qsPb203FloodLowSc;
+    QString m_qsPb203Grid;
+
+    double  m_qsPb203EnWinUpGsc;
+    double  m_qsPb203EnWinLowGsc;
+    double  m_qsPb203EnWinUpG;
+    double  m_qsPb203EnWinLowG;
+
+    QString m_qsPb212Energies1;
+    QString m_qsPb212Energies2;
+    QString m_qsPb212EnergiesUpSc;
+    QString m_qsPb212EnergiesLowSc;
+    QString m_qsPb212Flood1;
+    QString m_qsPb212Flood2;
+    QString m_qsPb212FloodUpSc;
+    QString m_qsPb212FloodLowSc;
+    QString m_qsPb212Grid;
+
+    double  m_qsPb212EnWinUpX;
+    double  m_qsPb212EnWinLowX;
+    double  m_qsPb212EnWinUpXsc;
+    double  m_qsPb212EnWinLowXsc;
+    double  m_qsPb212EnWinUpG;
+    double  m_qsPb212EnWinLowG;
+
+
+    QString m_qsAc225Energies1;
+    QString m_qsAc225Energies2;
+    QString m_qsAc225EnergiesUpSc;
+    QString m_qsAc225EnergiesLowSc;
+    QString m_qsAc225Flood1;
+    QString m_qsAc225Flood2;
+    QString m_qsAc225FloodUpSc;
+    QString m_qsAc225FloodLowSc;
+    QString m_qsAc225Grid;
+
+    double  m_qsAc225EnWinUpX;
+    double  m_qsAc225EnWinLowX;
+    double  m_qsAc225EnWinUpXsc;
+    double  m_qsAc225EnWinLowXsc;
+    double  m_qsAc225EnWinUpG;
+    double  m_qsAc225EnWinLowG;
+
+    QString m_qsRa223Energies1;
+    QString m_qsRa223Energies2;
+    QString m_qsRa223EnergiesUpSc;
+    QString m_qsRa223EnergiesLowSc;
+    QString m_qsRa223Flood1;
+    QString m_qsRa223Flood2;
+    QString m_qsRa223FloodUpSc;
+    QString m_qsRa223FloodLowSc;
+    QString m_qsRa223Grid;
+
+    double  m_qsRa223EnWinUpX;
+    double  m_qsRa223EnWinLowX;
+    double  m_qsRa223EnWinUpXsc;
+    double  m_qsRa223EnWinLowXsc;
+    double  m_qsRa223EnWinUpG;
+    double  m_qsRa223EnWinLowG;
+
+
+    QString m_qsGa67Energies;
+    QString m_qsGa67Flood;
+    QString m_qsGa67Grid;
+
+    QString m_qsI123Energies;
+    QString m_qsI123Flood;
+    QString m_qsI123Grid;
+
+    QString m_qsI125Energies;
+    QString m_qsI125Flood;
+    QString m_qsI125Grid;
+
+    QString m_qsTb161Energies;
+    QString m_qsTb161Flood;
+    QString m_qsTb161Grid;
+
+    QString m_qsCameraID;
+    QString m_qsArduino;
+
+    //For Beta where we do not have a specific nuclide
+    QString m_qsGridA;
+    QString m_qsGridB;
+
+    QString m_qsEnergiesA;
+    QString m_qsEnergiesB;
+
+    QString m_qsFlood;
+
+    QStringList m_qslFlips;
+    QString m_qsCastorFloodFile;
+
+
+    double m_dHeadAxParam1;
+    double m_dHeadAxParam2;
+
+    double m_dHeadAyParam1;
+    double m_dHeadAyParam2;
+
+    double m_dHeadBxParam1;
+    double m_dHeadBxParam2;
+
+    double m_dHeadByParam1;
+    double m_dHeadByParam2;
+
+    double m_dAcceptanceAngle;
+
+    double m_dFPTMeanVal;
+    double m_dFPTThresVal;
+
+    double m_dCastorMeanVal;
+    double m_dCastorThresVal;
+
+    double m_dTc99m_lim1;
+    double m_dTc99m_lim2;
+
+    double m_dTc99m_a1;
+    double m_dTc99m_b1;
+
+    double m_dTc99m_a2;
+    double m_dTc99m_b2;
+
+    double m_dTc99m_a3;
+    double m_dTc99m_b3;
+
+    double m_dPb203_lim1;
+    double m_dPb203_lim2;
+
+    double m_dPb203_a1;
+    double m_dPb203_b1;
+
+    double m_dPb203_a2;
+    double m_dPb203_b2;
+
+    double m_dPb203_a3;
+    double m_dPb203_b3;
+
+    double m_dPb212_lim1;
+    double m_dPb212_lim2;
+
+    double m_dPb212_a1;
+    double m_dPb212_b1;
+
+    double m_dPb212_a2;
+    double m_dPb212_b2;
+
+    double m_dPb212_a3;
+    double m_dPb212_b3;
+
+    double m_dAc225_lim1;
+    double m_dAc225_lim2;
+
+    double m_dAc225_a1;
+    double m_dAc225_b1;
+
+    double m_dAc225_a2;
+    double m_dAc225_b2;
+
+    double m_dAc225_a3;
+    double m_dAc225_b3;
+
+    double m_dRa223_lim1;
+    double m_dRa223_lim2;
+
+    double m_dRa223_a1;
+    double m_dRa223_b1;
+
+    double m_dRa223_a2;
+    double m_dRa223_b2;
+
+    double m_dRa223_a3;
+    double m_dRa223_b3;
+
+
+    double m_dIn111_lim1;
+    double m_dIn111_lim2;
+
+    double m_dIn111_a1;
+    double m_dIn111_b1;
+
+    double m_dIn111_a2;
+    double m_dIn111_b2;
+
+    double m_dIn111_a3;
+    double m_dIn111_b3;
+
+    double m_dLu177_lim1;
+    double m_dLu177_lim2;
+
+    double m_dLu177_a1;
+    double m_dLu177_b1;
+
+    double m_dLu177_a2;
+    double m_dLu177_b2;
+
+    double m_dLu177_a3;
+    double m_dLu177_b3;
+
+    double m_dGa67_lim1;
+    double m_dGa67_lim2;
+
+    double m_dGa67_a1;
+    double m_dGa67_b1;
+
+    double m_dGa67_a2;
+    double m_dGa67_b2;
+
+    double m_dGa67_a3;
+    double m_dGa67_b3;
+
+    double m_dI123_lim1;
+    double m_dI123_lim2;
+
+    double m_dI123_a1;
+    double m_dI123_b1;
+
+    double m_dI123_a2;
+    double m_dI123_b2;
+
+    double m_dI123_a3;
+    double m_dI123_b3;
+
+
+    double m_dI125_lim1;
+    double m_dI125_lim2;
+
+    double m_dI125_a1;
+    double m_dI125_b1;
+
+    double m_dI125_a2;
+    double m_dI125_b2;
+
+    double m_dI125_a3;
+    double m_dI125_b3;
+
+
+    double m_dTb161_lim1;
+    double m_dTb161_lim2;
+
+    double m_dTb161_a1;
+    double m_dTb161_b1;
+
+    double m_dTb161_a2;
+    double m_dTb161_b2;
+
+    double m_dTb161_a3;
+    double m_dTb161_b3;
+
+    double m_dRes0; //: 2.2
+    double m_dArg; //: 0.025;
+    int m_iDist1; //: 10;
+    int m_iDist2; //: 30;
+    double m_dPixelSize; //: 1.2;
+    int m_iIterations; //: 8;
+    double m_dDampar; //: 4;
+    double m_dHistAdj; //: 0.002;
+
+    QString m_sCastorSubsets;
+    QString m_sCastorIter;
+    QString m_sCastorPsf;
+
+
+    double m_dNuclide_lim1;
+    double m_dNuclide_lim2;
+    double m_dNuclide_lim3;
+
+    double m_dNuclide_a1;
+    double m_dNuclide_b1;
+
+    double m_dNuclide_a2;
+    double m_dNuclide_b2;
+
+    double m_dNuclide_a3;
+    double m_dNuclide_b3;
+
+    double m_dF18_lambda;
+    double m_dGa68_lambda;
+    double m_dC11_lambda;
+    double m_dN13_lambda;
+    double m_dO15_lambda;
+    double m_dCu62_lambda;
+    double m_dCu64_lambda;
+    double m_dZr89_lambda;
+    double m_dRb82_lambda;
+    double m_dI124_lambda;
+    double m_dBr76_lambda;
+    double m_dTb152_lambda;
+
+    double m_dF18_preExp;
+    double m_dGa68_preExp;
+    double m_dC11_preExp;
+    double m_dN13_preExp;
+    double m_dO15_preExp;
+    double m_dCu62_preExp;
+    double m_dCu64_preExp;
+    double m_dZr89_preExp;
+    double m_dRb82_preExp;
+    double m_dI124_preExp;
+    double m_dBr76_preExp;
+    double m_dTb152_preExp;
+    int m_energyUp;
+    int m_energyLow;
+    float m_temp_threshold;
+    float m_ref_temp;
+    float m_time_window;
+    float m_rawenergy_up;
+    float m_rawenergy_low;
+    bool m_print_mode;
+
+    bool m_bUseExpDecay;
+    int m_gaussKernel;
+    QStringList m_imgcrop;
+    QStringList m_qslCollimators;
+    int m_startFrame, m_endFrame,m_stepFrame;
+    QHash<QString,QStringList> m_qhCollimatorIsotopes;
+    QHash<QString,QStringList> m_qhIsotopesInfo;
+    //QHash<QString,spectIsotope> m_qhSpectIsotopes;
+};
+
+#endif // READINPUTINFO_H

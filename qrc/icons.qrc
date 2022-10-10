@@ -1,0 +1,68 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/118787-256.png</file>
+        <file>icons/if_Next_32435.png</file>
+        <file>icons/118788-256.png</file>
+        <file>icons/211686-32.png</file>
+        <file>icons/383124-64.png</file>
+        <file>icons/BIOEMTECH_GREY.png</file>
+        <file>icons/bioemtech_new.jpg</file>
+        <file>icons/check.png</file>
+        <file>icons/chronometer.png</file>
+        <file>icons/close.png</file>
+        <file>icons/document-open.png</file>
+        <file>icons/ellipse-vector-format.png</file>
+        <file>icons/if_button_black_play_40707.png</file>
+        <file>icons/if_button_black_stop_40711.png</file>
+        <file>icons/if_button_red_stop_50062.png</file>
+        <file>icons/if_EjectDisabled_22924.png</file>
+        <file>icons/if_right_63250.png</file>
+        <file>icons/if_Stop1Disabled_22942.png</file>
+        <file>icons/if_stop_63251.png</file>
+        <file>icons/irregular-line-of-straight-lines-and-angles.png</file>
+        <file>icons/media-playback-start.png</file>
+        <file>icons/media-playback-stop.png</file>
+        <file>icons/network-connect.png</file>
+        <file>icons/network-disconnect.png</file>
+        <file>icons/play-button.png</file>
+        <file>icons/program_icon.png</file>
+        <file>icons/rectangular-geometrical-shape-outline.png</file>
+        <file>icons/stop-button.png</file>
+        <file>icons/zoom-in.png</file>
+        <file>icons/zoom-original.png</file>
+        <file>icons/zoom-out.png</file>
+        <file>icons/Bet Solutions Left Red.jpg</file>
+        <file>icons/Bet Solutions Left Blue.jpg</file>
+        <file>icons/if_free-31_653685.png</file>
+        <file>icons/if_arrow_right_925929.png</file>
+        <file>icons/if_right_1167974.png</file>
+        <file>icons/if_go-next_30627.png</file>
+        <file>icons/if_arrow_left_925891.png</file>
+        <file>icons/post_processing.jpg</file>
+        <file>icons/if_undo_100960.png</file>
+        <file>icons/if_Back_32435.png</file>
+        <file>icons/add-dock.png</file>
+        <file>icons/external-browser.png</file>
+        <file>icons/letter-r-48.png</file>
+        <file>icons/letter-l-48.png</file>
+        <file>icons/Eject button.png</file>
+        <file>icons/Stop button.png</file>
+        <file>icons/Play button.png</file>
+        <file>icons/Disable Stop button.png</file>
+        <file>icons/Disable Play button.png</file>
+        <file>icons/Disable Insert button.png</file>
+        <file>icons/Disable Eject button.png</file>
+        <file>icons/Insert button.png</file>
+        <file>icons/BIOEMTECH_80.jpg</file>
+        <file>icons/red.jpg</file>
+        <file>icons/blue.jpg</file>
+        <file>icons/post_processing.jpg</file>
+        <file>icons/red.png</file>
+        <file>icons/betaEye.png</file>
+        <file>icons/post_processing.png</file>
+        <file>icons/PostProcessing_v2.png</file>
+        <file>icons/success.png</file>
+        <file>icons/fail.png</file>
+        <file>icons/calibration.png</file>
+    </qresource>
+</RCC>
