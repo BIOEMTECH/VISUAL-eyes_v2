@@ -1,0 +1,27 @@
+System:SGC_202101_012
+
+Collimators:LEGP, LFOV
+
+
+### DECONVOLUTION PARAMETERS ###
+deconvolution_res0: 2.2
+deconvolution_arg: 0.025
+deconvolution_dist1: 10  
+deconvolution_dist2: 30 
+deconvolution_pixelSize: 1.2
+deconvolution_iterations: 8
+deconvolution_dampar: 4
+deconvolution_histAdj: 0.001 # default value 0.002. Reduced to 0.001 to see sources in ratio 1/100
+
+
+### Gaussian blur ###
+Gaussian_kernel: 17
+
+### USB Connections ###
+Camera:usb-Generic_TTQ_8MP_Camera_200901010001
+Arduino:ttyACM0
+
+
+### OPTICAL CAMERA PARAMETERS ###
+Flip: x
+Image_crop:8,120,1025,561

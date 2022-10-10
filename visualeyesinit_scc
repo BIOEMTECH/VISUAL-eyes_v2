@@ -1,0 +1,120 @@
+System:SCC_201900_006
+head_A_x_param1:430
+head_A_x_param2:256
+
+head_A_y_param1:860
+head_A_y_param2:508
+ 
+head_B_x_param1:430
+head_B_x_param2:256
+
+head_B_y_param1:860
+head_B_y_param2:508
+
+Acceptance_angle:30
+
+Energy_window_up:750
+Energy_window_low:300
+Raw_energy_up:1500
+Raw_energy_low:0
+Time_window:2000
+Print_raw:on
+Grid_A: head_A-lut_grid2.txt
+Grid_B: head_B-lut_grid2.txt
+Energies_A: headAenergypeaks.txt
+Energies_B: headBenergypeaks.txt
+#Flood: FPT_flood_SCC006_Nov2021.txt
+
+FPT_meanVal: 600
+FPT_thresVal: 300
+
+Castor_flood:CastorFloodFIle_60x60x120.img
+
+#Decay info
+#Decay:Experimental
+
+nuclide_lim1:10 
+nuclide_lim2:30
+nuclide_lim3:50
+
+#F-18 
+nuclide_a1: 5.665e-6 
+nuclide_b1: -0.004
+
+nuclide_a2: 8.960e-6
+nuclide_b2:-0.218
+
+nuclide_a3:2.09e-5
+nuclide_b3:-1.87
+
+#Ga-68
+#nuclide_a1: 7.297e-6 
+#nuclide_b1: -0.00256
+
+#nuclide_a2: 1.075e-5
+#nuclide_b2:-0.286
+
+#nuclide_a3:2.781e-5
+#nuclide_b3:-2.543
+
+F18_name:F-18(110 min)
+F18_lambda:1.05e-4
+F18_preExp:1.0
+
+Ga68_name:Ga-68(68.3 min)
+Ga68_lambda:1.699e-4 
+#Experimental
+#Ga68_lambda:1.293e-4 
+Ga68_preExp:1.077
+
+C11_name:C-11(20.4 min)
+C11_lambda:5.66e-4
+C11_preExp:1.0
+
+N13_name:N-13(10 min)
+N13_lambda:11.57e-4
+N13_preExp:1.0
+
+O15_name:O-15(2.03 min)
+O15_lambda:56.354e-4
+O15_preExp:1.0
+
+Cu62_name:Cu-62(9.73 min)
+Cu62_lambda:11.91e-4
+Cu62_preExp:1.0
+
+Cu64_name:Cu-64(12.7 h)
+Cu64_lambda:0.152e-4
+Cu64_preExp:1.0
+
+Zr89_name:Zr-89(74.8 h)
+Zr89_lambda:0.0246e-4
+Zr89_preExp:1.0
+
+Rb82_name:Rb-82(1.25 min)
+Rb82_lambda:92.42e-4
+Rb82_preExp:1.0
+
+I124_name:I-124(4.2 days)
+I124_lambda:0.0192e-4
+I124_preExp:1.0
+
+Br76_name:Br-76(16.3 h)
+Br76_lambda:0.118e-4
+Br76_preExp:1.0
+
+Imaging:Castor
+CastorIterations:1
+CastorSubsets:10
+CastorPSF:-conv gaussian,0.975,0.975,3::psf
+Sensor_reference_temperature:28
+Sensor_temperature_threshold:5
+Camera:usb-Generic_TTQ_8MP_Camera_200901010001
+Arduino:ttyArduino
+
+Flip:x
+Start_frame:0
+End_frame:100		
+Step_frame:10
+#Image_crop:250,60,720,385
+Image_crop:0,0,50,50		
